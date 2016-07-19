@@ -1,0 +1,51 @@
+library(RODBC)
+install.packages("RODBC")
+library(RODBC)
+dbhandle <- odbcDriverConnect('driver={SQL Server};server=.;database=abccopy;trusted_connection=true')
+res <- sqlQuery(dbhandle, 'select * from information_schema.tables')
+summary(res)
+res <- sqlQuery(dbhandle, 'select TOP 10 * from tbl_movies')
+summary(res)
+res.lm<-lm(Movie_Rating~Lang_Id,data=res)
+res.lm<-lm(Movie_Rating~Lang_id,data=res)
+summary(res)
+res.ct<-C(res.Lang_id,treatment)
+res.ct<-C(Lang_id,treatment)
+contr.treatment(4)
+contrasts(res$Movie_Rating) = contr.treatment(4)
+summary(lm(Lang_id~Movie_Rating,res))
+summary(Movie_Rating)
+summary(res$Movie_Rating)
+res.lm<-lm(Lang_id~Movie_Rating,res)
+plot(res.lm)
+res <- sqlQuery(dbhandle, 'select TOP 10 [Lang_id],Movie_Rating from tbl_movies')
+summary(res)
+res <- sqlQuery(dbhandle, 'select 1000 [Lang_id],Movie_Rating from tbl_movies')
+summary(res)
+res <- sqlQuery(dbhandle, 'select TOP 1000 [Lang_id],Movie_Rating from tbl_movies')
+summary(res)
+res <- sqlQuery(dbhandle, 'select [Lang_id],Movie_Rating from tbl_movies')
+summary(res)
+reg <- sqlQuery(dbhandle, 'select [Lang_id],Movie_Rating from tbl_movies')
+summary(reg)
+
+CLUSTERING
+movies = read.delim('C:/Users/Vinodh/Desktop/Movies_new.txt',stringsAsFactors=FALSE)
+##movie<-movies[,c(3,4,8,9,12,13,14)]
+movie<-movies[,c(3,4,13,14,15,16,17)]
+cl=kmeans(movie,5)
+cl
+plot(movie,col=cl$cluster)
+points(cl$centers,col=1:2,pch=8,cex=2)
+
+##Dummy coding
+Censor.f<-factor(Censor)
+is.factor(Censor.f)
+attributes(Censor.f)
+Censor.ct<-C(Censor.f, treatment)
+attributes(Censor.ct)
+
+##Cluster results
+clustersA <- pam(distances, nkA, diss=TRUE)
+filenameclu = paste("filenameclu", ".txt")
+write.table(cl$cluster, file=filenameclu,sep=",")
